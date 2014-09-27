@@ -10,6 +10,13 @@
         android:title="@string/action_shuffle"/>
     
     <item
+        android:id="@+id/action_end"
+        android:icon="@drawable/end"
+        android:orderInCategory="2"
+        android:showAsAction="always"
+        android:title="@string/action_end"/>
+    
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"
