@@ -2,6 +2,7 @@ package com.ort.borgplayer;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.ort.borgplayer.activity.LyricsActivity;
 import com.ort.borgplayer.activity.VoiceRecognitionActivity;
 import com.ort.borgplayer.domain.MusicFile;
 import com.ort.borgplayer.service.MusicService;
@@ -103,6 +105,10 @@ public class MainActivity extends Activity {
 			stopService(playIntent);
 			musicService = null;
 			System.exit(0);
+			break;
+		case R.id.action_lyrics:
+			Intent intent = new Intent(this.getApplicationContext() , LyricsActivity.class);
+			startActivityForResult(intent, 0);
 			break;
 		}
 		return super.onOptionsItemSelected(item);

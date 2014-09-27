@@ -4,14 +4,21 @@
     
     <item
         android:id="@+id/action_shuffle"
-        android:icon="@drawable/shuffle"
+        android:icon="@drawable/ic_action_shuffle"
         android:orderInCategory="1"
         android:showAsAction="always"
         android:title="@string/action_shuffle"/>
     
     <item
+        android:id="@+id/action_lyrics"
+        android:icon="@drawable/ic_action_chat"
+        android:orderInCategory="2"
+        android:showAsAction="always"
+        android:title="@string/action_lyrics"/>
+    
+    <item
         android:id="@+id/action_end"
-        android:icon="@drawable/end"
+        android:icon="@drawable/ic_action_cancel"
         android:orderInCategory="2"
         android:showAsAction="always"
         android:title="@string/action_end"/>

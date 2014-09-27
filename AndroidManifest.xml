@@ -29,8 +29,9 @@
             </intent-filter>      
             
         </activity>
-          
-     <activity android:name=".activity.VoiceRecognitionActivity" />
+   	 
+        <activity android:name=".activity.LyricsActivity"/>
+     	<activity android:name=".activity.VoiceRecognitionActivity" />
         
         <service android:name="com.ort.borgplayer.service.MusicService" />
     </application>
