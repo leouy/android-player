@@ -4,6 +4,13 @@
   android:layout_height="fill_parent"
   android:orientation="vertical"
   tools:context=".MainActivity" >
+  
+    
+    <Button
+        android:id="@+id/btSpeak"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/btSpeak" />
  
   <ListView
     android:id="@+id/lista_canciones"

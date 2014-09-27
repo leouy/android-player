@@ -2,16 +2,19 @@ package com.ort.borgplayer;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.ort.borgplayer.activity.VoiceRecognitionActivity;
 import com.ort.borgplayer.domain.MusicFile;
 import com.ort.borgplayer.widget.MusicListAdapter;
 
@@ -31,6 +34,15 @@ public class MainActivity extends Activity {
         this.getMusicList();
         MusicListAdapter adapter = new MusicListAdapter(this, musicList);
         musicListView.setAdapter(adapter);
+        Button btnSpeak = (Button) findViewById(R.id.btSpeak);
+        btnSpeak.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent textActivityIntent = new Intent(v.getContext(), VoiceRecognitionActivity.class);				
+				startActivityForResult(textActivityIntent, 0);
+			}
+		});
+       
     }
 
 
@@ -71,5 +83,5 @@ public class MainActivity extends Activity {
     	}
     }
     
-    
+  
 }
