@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.ort.borgplayer.domain.MusicFile;
+import com.ort.borgplayer.widget.MusicListAdapter;
 
 
 public class MainActivity extends Activity {
@@ -28,6 +29,8 @@ public class MainActivity extends Activity {
         musicListView = (ListView) findViewById(R.id.lista_canciones);
         musicList = new ArrayList<MusicFile>();
         this.getMusicList();
+        MusicListAdapter adapter = new MusicListAdapter(this, musicList);
+        musicListView.setAdapter(adapter);
     }
 
 
