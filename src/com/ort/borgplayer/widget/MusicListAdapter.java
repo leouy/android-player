@@ -42,23 +42,30 @@ public class MusicListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+
+		// ViewHolder pattern
 		ViewHolder holder;
-		holder = new ViewHolder();
-		//map to song layout
-		if (convertView == null)
+		// If convertView is null, inflate it
+		if (convertView == null) {
+			// Inflate
 			convertView = this.musicInflater.inflate(R.layout.music, parent, false);
-
-		//get title and artist views
-		holder.songTitle = (TextView)convertView.findViewById(R.id.song_title);
-		holder.songArtist = (TextView)convertView.findViewById(R.id.song_artist);
-
-		//get song using position
+			// Set the view holder
+			holder = new ViewHolder();
+			holder.songTitle = (TextView)convertView.findViewById(R.id.song_title);
+			holder.songArtist = (TextView)convertView.findViewById(R.id.song_artist);
+			// Set holder as tag
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
+		}
+		// Get music file by position
 		MusicFile currentFile = musicFiles.get(position);
-		//get title and artist strings
-		holder.songTitle.setText(currentFile.getTitle());
-		holder.songArtist.setText(currentFile.getArtist());
-		//set position as tag
-		convertView.setTag(position);
+		if (currentFile != null) {
+			// Get title and artist
+			holder.songTitle.setText(currentFile.getTitle());
+			holder.songArtist.setText(currentFile.getArtist());
+		}
+		
 		return convertView;
 	}
 	
