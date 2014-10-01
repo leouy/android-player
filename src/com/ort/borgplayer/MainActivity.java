@@ -133,7 +133,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void musicFileSelected(View view){
-		musicService.setFile(Integer.parseInt(view.getTag().toString()));
+		musicService.setFile(Integer.parseInt(view.getTag(R.string.position).toString()));
 		musicService.playFile();
 	}
 

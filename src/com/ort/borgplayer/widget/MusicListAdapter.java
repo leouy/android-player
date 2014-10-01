@@ -54,12 +54,13 @@ public class MusicListAdapter extends BaseAdapter {
 			holder.songTitle = (TextView)convertView.findViewById(R.id.song_title);
 			holder.songArtist = (TextView)convertView.findViewById(R.id.song_artist);
 			// Set holder as tag
-			convertView.setTag(holder);
+			convertView.setTag(R.string.holder, holder);
 		} else {
-			holder = (ViewHolder) convertView.getTag();
+			holder = (ViewHolder) convertView.getTag(R.string.holder);
 		}
 		// Get music file by position
 		MusicFile currentFile = musicFiles.get(position);
+		convertView.setTag(R.string.position, position);
 		if (currentFile != null) {
 			// Get title and artist
 			holder.songTitle.setText(currentFile.getTitle());

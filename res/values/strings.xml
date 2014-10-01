@@ -1,18 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- App i18n -->
     <string name="app_name">Borg Player</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <!-- Player i18n -->
     <string name="action_shuffle">Shuffle</string>
     <string name="action_end">Close</string>
     <string name="action_lyrics">Lyrics</string>
     
+    <!-- Voice i18n -->
     <string name="btSpeak">Speak</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_voice_recognition">Voice Recognition</string>
     <string name="tvTextMatches">Text Matches</string>
     <string name="sNoOfMatches">No of Matches</string>    
     <string name="etSearchHint">Speech hint here</string>
+    
+    <!-- ViewHolder -->
+    <string name="holder">1</string>
+    <string name="position">2</string>
 
 </resources>
