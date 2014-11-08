@@ -7,31 +7,41 @@ public class MusicFile {
 	private String title;
 	
 	private String artist;
+	
+	private String artPath;
 
 	public MusicFile() {}
+
+	public String getArtist() {
+		return artist;
+	}
+
+	public String getArtPath() {
+		return artPath;
+	}
 	
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getArtist() {
-		return artist;
-	}
-
 	public void setArtist(String artist) {
 		this.artist = artist;
+	}
+
+	public void setArtPath(String artPath) {
+		this.artPath = artPath;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	

@@ -3,145 +3,77 @@ package com.ort.borgplayer;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
 
-import com.ort.borgplayer.activity.LyricsActivity;
+import com.ort.borgplayer.activity.MusicActivity;
 import com.ort.borgplayer.activity.VoiceRecognitionActivity;
-import com.ort.borgplayer.domain.MusicFile;
-import com.ort.borgplayer.service.MusicService;
-import com.ort.borgplayer.service.MusicService.MusicBinder;
-import com.ort.borgplayer.widget.MusicListAdapter;
+import com.ort.borgplayer.domain.GridArtistFile;
+import com.ort.borgplayer.widget.GridAdapter;
 
 
 public class MainActivity extends Activity {
 
-	private List<MusicFile> musicList;
+	private List<GridArtistFile> albumArt;
 
-	private ListView musicListView;
-
-	private MusicService musicService;
-
-	private Intent playIntent;
-
-	private boolean musicBound = false;
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	@SuppressLint("UseSparseArrays") @Override
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		musicListView = (ListView) findViewById(R.id.lista_canciones);
-		musicList = new ArrayList<MusicFile>();
-		this.getMusicList();
-		MusicListAdapter adapter = new MusicListAdapter(this, musicList);
-		musicListView.setAdapter(adapter);
-        Button btnSpeak = (Button) findViewById(R.id.btSpeak);
-        btnSpeak.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent textActivityIntent = new Intent(v.getContext(), VoiceRecognitionActivity.class);				
-				startActivityForResult(textActivityIntent, 0);
+		setContentView(R.layout.main_gridview);
+		albumArt = new ArrayList<GridArtistFile>();
+		this.getAlbumArt();
+		GridView gridview = (GridView) findViewById(R.id.gridview);
+		gridview.setAdapter(new GridAdapter(this, albumArt));
+
+		gridview.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+				String artist = v.getTag(R.string.grid_artist).toString();
+				if (position == 0) {
+
+				} else if (position == 1) {
+					Intent intent = new Intent(getApplicationContext() , VoiceRecognitionActivity.class);
+					startActivityForResult(intent, 0);
+				} else {
+					Intent intent = new Intent(getApplicationContext() , MusicActivity.class);
+					intent.putExtra("artistName", artist);
+					startActivityForResult(intent, 0);
+				}
 			}
 		});
-       
 	}
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-		if(playIntent == null){
-			playIntent = new Intent(this, MusicService.class);
-			startService(playIntent);
-			bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-		}
-	}
-
-	// Conectar al service
-	private ServiceConnection musicConnection = new ServiceConnection(){
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			MusicBinder binder = (MusicBinder) service;
-			//get service
-			musicService = binder.getService();
-			//pass list
-			musicService.setList(musicList);
-			musicBound = true;
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			musicBound = false;
-		}
-	};
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.action_shuffle:
-			//shuffle
-			break;
-		case R.id.action_end:
-			stopService(playIntent);
-			musicService = null;
-			System.exit(0);
-			break;
-		case R.id.action_lyrics:
-			Intent intent = new Intent(this.getApplicationContext() , LyricsActivity.class);
-			startActivityForResult(intent, 0);
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	private void getMusicList() {
+	private void getAlbumArt() {
 		ContentResolver musicResolver = getContentResolver();
-		Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-		Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
-		if (musicCursor != null) {
-			int titulo = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE);
-			int id = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media._ID);
-			int artista = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.ARTIST);
-			while (musicCursor.moveToNext()) {
-				MusicFile file = new MusicFile();
-				file.setId(musicCursor.getLong(id));
-				file.setTitle(musicCursor.getString(titulo));
-				file.setArtist(musicCursor.getColumnName(artista));
-				musicList.add(file);
+		String[] projection = {android.provider.MediaStore.Audio.Albums._ID, android.provider.MediaStore.Audio.Albums.ALBUM_ART,
+				android.provider.MediaStore.Audio.Artists.ARTIST};
+		Cursor albumArtCursor = musicResolver.query(android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, projection,
+				null, null, null);
+		if (albumArtCursor != null) {
+			GridArtistFile fileTag = new GridArtistFile();
+			fileTag.setArtist("Tagged Songs");
+			// fileTag.setPath(path);
+			GridArtistFile fileVoice = new GridArtistFile();
+			fileVoice.setArtist("Voice Recon");
+			//fileVoice.setPath(path);
+			albumArt.add(fileTag);
+			albumArt.add(fileVoice);
+			while (albumArtCursor.moveToNext()) {
+				GridArtistFile file = new GridArtistFile();
+				file.setArtist(albumArtCursor.getString(2));
+				file.setPath(albumArtCursor.getString(1));
+				if (!albumArt.contains(file)) {
+					albumArt.add(file);
+				}
 			}
 		}
-	}
-
-	public void musicFileSelected(View view){
-		musicService.setFile(Integer.parseInt(view.getTag(R.string.position).toString()));
-		musicService.playFile();
-	}
-
-	@Override
-	protected void onDestroy() {
-		stopService(playIntent);
-		musicService = null;
-		super.onDestroy();
 	}
 
 

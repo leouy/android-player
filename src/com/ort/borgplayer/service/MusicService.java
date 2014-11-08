@@ -2,6 +2,8 @@ package com.ort.borgplayer.service;
 
 import java.util.List;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentUris;
 import android.content.Intent;
@@ -13,6 +15,8 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 
+import com.ort.borgplayer.MainActivity;
+import com.ort.borgplayer.R;
 import com.ort.borgplayer.domain.MusicFile;
 
 public class MusicService extends Service implements MediaPlayer.OnPreparedListener, 
@@ -25,6 +29,10 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
 	private int musicPos;
 
 	private final IBinder musicBind = new MusicBinder();
+
+	private String musicTitle = "";
+
+	private static final int NOTIFY_ID = 1;
 
 	@Override
 	public void onCreate() {
@@ -66,18 +74,36 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
 
 	@Override
 	public void onCompletion(MediaPlayer arg0) {
-		// TODO Auto-generated method stub
-
+		if(arg0.getCurrentPosition() > 0){
+			arg0.reset();
+			next();
+		}
 	}
 
 	@Override
 	public boolean onError(MediaPlayer arg0, int arg1, int arg2) {
-		// TODO Auto-generated method stub
+		arg0.reset();
 		return false;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
-	public void onPrepared(MediaPlayer arg0) {
+	public void onPrepared(MediaPlayer player) {
+		Intent notIntent = new Intent(this, MainActivity.class);
+		notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		PendingIntent pendInt = PendingIntent.getActivity(this, 0,
+				notIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		Notification not = new Notification.Builder(this)
+		.setContentIntent(pendInt)
+		.setSmallIcon(R.drawable.play_not)
+		.setTicker(musicTitle)
+		.setOngoing(true)
+		.setContentTitle("Playing")
+		.setContentText(musicTitle)
+		.getNotification();
+
+		startForeground(NOTIFY_ID, not);
 		player.start();
 	}
 
@@ -88,6 +114,7 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
 	public void playFile(){
 		player.reset();
 		MusicFile playFile = musicList.get(musicPos);
+		musicTitle = playFile.getTitle();
 		long current = playFile.getId();
 		Uri trackUri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, current);
 		try{
@@ -99,5 +126,51 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
 		player.prepareAsync();
 	}
 
+	@Override
+	public void onDestroy() {
+		stopForeground(true);
+	}
+
+	///////////////////////////////////////////////////////////
+	// Activity playback methods
+	///////////////////////////////////////////////////////////
+
+	public int getPosition(){
+		return player.getCurrentPosition();
+	}
+
+	public int getDuration(){
+		return player.getDuration();
+	}
+
+	public boolean isPlaying(){
+		return player.isPlaying();
+	}
+
+	public void pausePlayer(){
+		player.pause();
+	}
+
+	public void seek(int posn){
+		player.seekTo(posn);
+	}
+
+	public void go(){
+		player.start();
+	}
+
+	public void previous(){
+		musicPos--;
+		if(musicPos < 0) 
+			musicPos = musicList.size()-1 ;
+		playFile();
+	}
+
+	public void next(){
+		musicPos++;
+		if(musicPos >= musicList.size()) 
+			musicPos = 0;
+		playFile();
+	}
 
 }

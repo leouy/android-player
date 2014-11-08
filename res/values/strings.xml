@@ -10,6 +10,10 @@
     <string name="action_shuffle">Shuffle</string>
     <string name="action_end">Close</string>
     <string name="action_lyrics">Lyrics</string>
+    <string name="tag">Geo</string>
+    
+    <!-- Album art main view -->
+    <string name="albumArtDesc">Album Art</string>
     
     <!-- Voice i18n -->
     <string name="btSpeak">Speak</string>
@@ -19,8 +23,12 @@
     <string name="sNoOfMatches">No of Matches</string>    
     <string name="etSearchHint">Speech hint here</string>
     
-    <!-- ViewHolder -->
+    <!-- List ViewHolder -->
     <string name="holder">1</string>
     <string name="position">2</string>
+    
+    <!-- Grid ViewHolder -->
+    <string name="grid_artist">1</string>
+    <string name="grid_position">2</string>
 
 </resources>

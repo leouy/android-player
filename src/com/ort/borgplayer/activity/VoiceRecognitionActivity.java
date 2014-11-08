@@ -30,7 +30,7 @@ public class VoiceRecognitionActivity extends Activity{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_command_recognition);
+		setContentView(R.layout.command_recognition);
 		//metTextHint = (EditText) findViewById(R.id.etTextHint);
 		mlvTextMatches = (ListView) findViewById(R.id.lvTextMatches);
 		// msTextMatches = (Spinner) findViewById(R.id.sNoOfMatches);
