@@ -64,14 +64,7 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 		this.getMusicList();
 		MusicListAdapter adapter = new MusicListAdapter(this, musicList);
 		musicListView.setAdapter(adapter);
-		Button btnSpeak = (Button) findViewById(R.id.btSpeak);
-		btnSpeak.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent textActivityIntent = new Intent(v.getContext(), VoiceRecognitionActivity.class);				
-				startActivityForResult(textActivityIntent, 0);
-			}
-		});
+		
 		btnGeoLoc.setOnClickListener(onGeoBotonClick);
 		Collections.sort(musicList, new MusicFileComparator());
 		this.setController();
