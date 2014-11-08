@@ -10,9 +10,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageView;
 
 import com.ort.borgplayer.activity.MusicActivity;
 import com.ort.borgplayer.activity.MusicGeoTagActivity;
@@ -36,21 +38,47 @@ public class MainActivity extends Activity {
 
 		gridview.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				String artist = v.getTag(R.string.grid_artist).toString();
-				if (position == 0) {
-					Intent intent = new Intent(getApplicationContext() , MusicGeoTagActivity.class);
-					startActivityForResult(intent, 0);
-				} else if (position == 1) {
-					Intent intent = new Intent(getApplicationContext() , VoiceRecognitionActivity.class);
-					startActivityForResult(intent, 0);
-				} else {
-					Intent intent = new Intent(getApplicationContext() , MusicActivity.class);
-					intent.putExtra("artistName", artist);
-					startActivityForResult(intent, 0);
-				}
+				String artist = v.getTag(R.string.grid_artist).toString();				
+
+				Intent intent = new Intent(getApplicationContext() , MusicActivity.class);
+				intent.putExtra("artistName", artist);
+				startActivityForResult(intent, 0);				
 			}
 		});
+
+		ImageView TagsView = (ImageView) findViewById(R.id.Tags);
+		TagsView.setOnClickListener(onGeoClick);
+		TagsView = (ImageView) findViewById(R.id.VoiceRecognition);
+		TagsView.setOnClickListener(onVoiceClick);
+		TagsView = (ImageView) findViewById(R.id.seeMap);
+		TagsView.setOnClickListener(onMapClick);
+
+
 	}
+	private OnClickListener onGeoClick = new OnClickListener() {
+
+		@Override
+		public void onClick(View view) {
+	Intent intent = new Intent(getApplicationContext() , MusicGeoTagActivity.class);
+					startActivityForResult(intent, 0);
+
+		}
+	};
+	private OnClickListener onVoiceClick = new OnClickListener() {
+
+		@Override
+		public void onClick(View view) {
+			Intent intent = new Intent(getApplicationContext() , VoiceRecognitionActivity.class);
+			startActivityForResult(intent, 0);	
+		}
+	};
+	private OnClickListener onMapClick = new OnClickListener() {
+
+		@Override
+		public void onClick(View view) {
+
+		}
+	};
 
 	private void getAlbumArt() {
 		ContentResolver musicResolver = getContentResolver();
@@ -59,14 +87,7 @@ public class MainActivity extends Activity {
 		Cursor albumArtCursor = musicResolver.query(android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, projection,
 				null, null, null);
 		if (albumArtCursor != null) {
-			GridArtistFile fileTag = new GridArtistFile();
-			fileTag.setArtist("Tagged Songs");
-			// fileTag.setPath(path);
-			GridArtistFile fileVoice = new GridArtistFile();
-			fileVoice.setArtist("Voice Recon");
-			//fileVoice.setPath(path);
-			albumArt.add(fileTag);
-			albumArt.add(fileVoice);
+
 			while (albumArtCursor.moveToNext()) {
 				GridArtistFile file = new GridArtistFile();
 				file.setArtist(albumArtCursor.getString(2));
