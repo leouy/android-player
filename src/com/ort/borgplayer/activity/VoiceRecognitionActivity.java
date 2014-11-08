@@ -11,10 +11,13 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.ort.borgplayer.R;
 
@@ -23,7 +26,7 @@ public class VoiceRecognitionActivity extends Activity{
 	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
 
 	private ListView mlvTextMatches;
-	
+
 	private Button mbtSpeak;
 
 
@@ -91,7 +94,17 @@ public class VoiceRecognitionActivity extends Activity{
 						startActivity(search);
 					} else {
 						// populate the Matches
-						mlvTextMatches.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, textMatchList));
+						ArrayAdapter<String> matchListAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, textMatchList);
+						mlvTextMatches.setAdapter(matchListAdapter);
+						mlvTextMatches.setOnItemClickListener(new OnItemClickListener() {
+							public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+								TextView view = (TextView)v;
+								String searchText = view.getText().toString();													
+								Intent intent = new Intent(getApplicationContext() , MusicActivity.class);
+								intent.putExtra("voiceInput", searchText);
+								startActivityForResult(intent, 0);								
+							}
+						});
 
 					}
 				}
@@ -109,6 +122,7 @@ public class VoiceRecognitionActivity extends Activity{
 			}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
+
 
 	/**
 	 * Helper method to show the toast message

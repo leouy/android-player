@@ -60,9 +60,8 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 		setContentView(R.layout.music_list);
 		musicListView = (ListView) findViewById(R.id.lista_canciones);
 		musicList = new ArrayList<MusicFile>();
-		btnGeoLoc = (Button) findViewById(R.id.localizarCancion);
-		String artist = this.getIntent().getExtras().getString("artistName");
-		this.getMusicList(artist);
+		btnGeoLoc = (Button) findViewById(R.id.localizarCancion);		
+		this.getMusicList();
 		MusicListAdapter adapter = new MusicListAdapter(this, musicList);
 		musicListView.setAdapter(adapter);
 		Button btnSpeak = (Button) findViewById(R.id.btSpeak);
@@ -152,10 +151,19 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void getMusicList(String artist) {
+	private void getMusicList() {
+		String artist = this.getIntent().getExtras().getString("artistName");
+		String voiceRecogn = this.getIntent().getExtras().getString("voiceInput");
+		
 		ContentResolver musicResolver = getContentResolver();
 		Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-		String whereClause = "artist = '" + artist +"'";
+		String whereClause = "";
+		if(artist != null){
+			 whereClause = "artist = '" + artist +"'";
+		}else{
+			 whereClause = "artist like '%" + voiceRecogn +"%' or title like '%" + voiceRecogn +"%'";
+		}
+		
 		Cursor musicCursor = musicResolver.query(musicUri, null, whereClause, null, null);
 		if (musicCursor != null) {
 			int titulo = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE);
