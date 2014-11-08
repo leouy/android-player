@@ -15,6 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
 import com.ort.borgplayer.activity.MusicActivity;
+import com.ort.borgplayer.activity.MusicGeoTagActivity;
 import com.ort.borgplayer.activity.VoiceRecognitionActivity;
 import com.ort.borgplayer.domain.GridArtistFile;
 import com.ort.borgplayer.widget.GridAdapter;
@@ -37,7 +38,8 @@ public class MainActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				String artist = v.getTag(R.string.grid_artist).toString();
 				if (position == 0) {
-
+					Intent intent = new Intent(getApplicationContext() , MusicGeoTagActivity.class);
+					startActivityForResult(intent, 0);
 				} else if (position == 1) {
 					Intent intent = new Intent(getApplicationContext() , VoiceRecognitionActivity.class);
 					startActivityForResult(intent, 0);

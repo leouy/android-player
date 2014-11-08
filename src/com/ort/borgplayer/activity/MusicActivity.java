@@ -12,8 +12,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.location.Location;
-import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -30,6 +28,7 @@ import com.ort.borgplayer.R;
 import com.ort.borgplayer.domain.MusicFile;
 import com.ort.borgplayer.service.MusicService;
 import com.ort.borgplayer.service.MusicService.MusicBinder;
+import com.ort.borgplayer.util.LocationHelper;
 import com.ort.borgplayer.util.MusicFileComparator;
 import com.ort.borgplayer.widget.MusicController;
 import com.ort.borgplayer.widget.MusicListAdapter;
@@ -307,27 +306,16 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 		
 		@Override
 		public void onClick(View view) {
-			LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-			LocationProvider provider = null;
-			if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-				provider = manager.getProvider(LocationManager.GPS_PROVIDER);
-			} else if (manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-				provider = manager.getProvider(LocationManager.NETWORK_PROVIDER);
-			}
-			
-			if (provider != null) {
-//				manager.requestSingleUpdate(provider, this);
-				Location loc = manager.getLastKnownLocation(provider.getName());
-				double lat = loc.getLatitude();
-				double lon = loc.getLongitude();
+			Location location = LocationHelper.getLocation(getApplicationContext());
+			if (location != null) {
+				double lat = location.getLatitude();
+				double lon = location.getLongitude();
 				Toast.makeText(getApplicationContext(), "Lat:" + lat + " - Long:" + lon , Toast.LENGTH_SHORT).show();
-				// TODO: hacer algo con la loc
 			} else {
 				Toast.makeText(getApplicationContext(), "No location providers available!", Toast.LENGTH_SHORT).show();
 			}
-			
 		}
 	};
-	
+
 	
 }

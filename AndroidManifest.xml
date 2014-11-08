@@ -11,7 +11,10 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.LOCATION_HARDWARE" />
     
     <application
         android:allowBackup="true"
@@ -28,15 +31,24 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>      
+            </intent-filter>
             
         </activity>
    	 	
         <activity android:name=".activity.MusicActivity"/>
         <activity android:name=".activity.LyricsActivity"/>
      	<activity android:name=".activity.VoiceRecognitionActivity" />
+     	<activity android:name=".activity.MusicGeoTagActivity" />
         
         <service android:name="com.ort.borgplayer.service.MusicService" />
+        
+        <meta-data
+                android:name="com.google.android.gms.version"
+                android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBUP-JFT66jE_rpL6Lezp3Mi7dD_gIPrF4" />
+        
     </application>
 
     
