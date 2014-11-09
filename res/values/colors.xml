@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="red">#ffff0000</color>
-    <color name="borggreen">#0b4708</color>
+    <color name="borggreen">#35613B</color>
+    <color name="borggray">#423F3B</color>
+    
+    
 </resources>

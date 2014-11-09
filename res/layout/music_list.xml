@@ -5,19 +5,37 @@
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
-
     <ListView
         android:id="@+id/lista_canciones"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="258dp"
+        android:layout_weight="0.42" >
     </ListView>
 
-    <Button
-        android:id="@+id/localizarCancion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tag"
-        android:background="@android:color/transparent" >
-    </Button>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/localizarCancion2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="34dp"
+            android:background="@android:color/transparent"
+            android:text="@string/tag" />
+
+        <Button
+            android:id="@+id/localizarCancion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="22dp"
+            android:background="@android:color/transparent"
+            android:text="@string/tag" />
+
+    </RelativeLayout>
 
 </LinearLayout>

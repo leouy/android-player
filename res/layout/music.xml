@@ -4,14 +4,14 @@
   android:layout_height="wrap_content"
   android:onClick="musicFileSelected"
   android:orientation="vertical"
-  android:background="#423F3B"
+  android:background="@color/borggray"
   android:padding="5dp" >
  
   <TextView
     android:id="@+id/song_title"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:textColor="#35613B"
+    android:textColor="@color/borggreen"
     android:textSize="20sp"
     android:textStyle="bold" />
  
