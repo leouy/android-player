@@ -93,30 +93,6 @@ public class LocalDb extends SQLiteOpenHelper {
 		}
 	}
 
-//	public TaggedSong getTaggedSong(Long songId) {
-//		SQLiteDatabase db = this.getReadableDatabase();
-//
-//		String selectQuery = "SELECT  * FROM " + TABLE_MARCADORES + " WHERE "
-//				+ ID + " = " + localId;
-//
-//		Log.e(LOG, selectQuery);
-//		Cursor c = db.rawQuery(selectQuery, null);
-//		TaggedSong taggedSong = null;
-//
-//		if (c.getCount() > 0) {
-//			c.moveToFirst();
-//			taggedSong = new TaggedSong();
-//			taggedSong.setId(c.getLong(c.getColumnIndex(ID)));
-//			taggedSong.setArtist(c.getString(c.getColumnIndex(ARTIST_NAME)));
-//			taggedSong.setTitle(c.getString(c.getColumnIndex(SONG_NAME)));
-//			taggedSong.setLatitude(c.getDouble(c.getColumnIndex(LATITUDE)));
-//			taggedSong.setLongitude(c.getDouble(c.getColumnIndex(LONGITUDE)));
-//			taggedSong.setCreationDate(Date.valueOf(c.getString(c.getColumnIndex(CREATION_DATE))));
-//		}
-//
-//		return taggedSong;
-//	}
-
 	public List<TaggedSong> getTaggedSongs() {
 		List<TaggedSong> taggedSongs = new ArrayList<TaggedSong>();
 		String selectQuery = "SELECT  * FROM " + TABLE_MARCADORES;

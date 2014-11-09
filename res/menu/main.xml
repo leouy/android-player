@@ -3,13 +3,6 @@
     tools:context="com.ort.borgplayer.MainActivity" >
     
     <item
-        android:id="@+id/action_shuffle"
-        android:icon="@drawable/ic_action_shuffle"
-        android:orderInCategory="1"
-        android:showAsAction="always"
-        android:title="@string/action_shuffle"/>
-    
-    <item
         android:id="@+id/action_lyrics"
         android:icon="@drawable/ic_action_chat"
         android:orderInCategory="2"

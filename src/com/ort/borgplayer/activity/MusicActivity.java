@@ -61,6 +61,7 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.music_list);
+		this.getActionBar().setDisplayHomeAsUpEnabled(true);
 		musicListView = (ListView) findViewById(R.id.lista_canciones);
 		musicList = new ArrayList<MusicFile>();
 		btnGeoLoc = (Button) findViewById(R.id.localizarCancion);		
@@ -131,16 +132,16 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.action_shuffle:
-			//shuffle
-			break;
 		case R.id.action_end:
 			stopService(playIntent);
 			musicService = null;
 			System.exit(0);
 			break;
 		case R.id.action_lyrics:
+			MusicFile file = musicList.get(currentPos);
 			Intent intent = new Intent(this.getApplicationContext() , LyricsActivity.class);
+			intent.putExtra("artistName", file.getArtist());
+			intent.putExtra("songTitle", file.getTitle());
 			startActivityForResult(intent, 0);
 			break;
 		}
