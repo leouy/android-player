@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 import com.ort.borgplayer.R;
 import com.ort.borgplayer.domain.MusicFile;
+import com.ort.borgplayer.domain.TaggedSong;
+import com.ort.borgplayer.persistence.LocalDb;
 import com.ort.borgplayer.service.MusicService;
 import com.ort.borgplayer.service.MusicService.MusicBinder;
 import com.ort.borgplayer.util.LocationHelper;
@@ -52,6 +54,8 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 	private boolean musicPaused = false;
 
 	private boolean musicBound = false;
+	
+	private int currentPos;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -146,16 +150,21 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 	private void getMusicList() {
 		String artist = this.getIntent().getExtras().getString("artistName");
 		String voiceRecogn = this.getIntent().getExtras().getString("voiceInput");
-		
+		String idList = this.getIntent().getExtras().getString("idList");
+
 		ContentResolver musicResolver = getContentResolver();
 		Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
 		String whereClause = "";
-		if(artist != null){
-			 whereClause = "artist = '" + artist +"'";
-		}else{
-			 whereClause = "artist like '%" + voiceRecogn +"%' or title like '%" + voiceRecogn +"%'";
+		if (artist != null) {
+			whereClause = "artist = '" + artist +"'";
+		} else if (voiceRecogn != null) {
+			whereClause = "artist like '%" + voiceRecogn +"%' or title like '%" + voiceRecogn +"%'";
+		} else if (idList != null) {
+			whereClause = "_id in (" + idList + ")";
+		} else {
+			whereClause = null;
 		}
-		
+
 		Cursor musicCursor = musicResolver.query(musicUri, null, whereClause, null, null);
 		if (musicCursor != null) {
 			int titulo = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE);
@@ -172,7 +181,8 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 	}
 
 	public void musicFileSelected(View view){
-		musicService.setFile(Integer.parseInt(view.getTag(R.string.position).toString()));
+		currentPos = Integer.parseInt(view.getTag(R.string.position).toString());
+		musicService.setFile(currentPos);
 		musicService.playFile();
 		if(musicPaused){
 		    setController();
@@ -205,6 +215,7 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 
 	private void playNext() {
 		musicService.next();
+		currentPos++;
 		if (musicPaused) {
 			setController();
 			musicPaused = false;
@@ -214,6 +225,7 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 
 	private void playPrevious() {
 		musicService.previous();
+		currentPos--;
 		if (musicPaused) {
 			setController();
 			musicPaused = false;
@@ -307,12 +319,27 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 		@Override
 		public void onClick(View view) {
 			Location location = LocationHelper.getLocation(getApplicationContext());
-			if (location != null) {
-				double lat = location.getLatitude();
-				double lon = location.getLongitude();
-				Toast.makeText(getApplicationContext(), "Lat:" + lat + " - Long:" + lon , Toast.LENGTH_SHORT).show();
+			if (musicService.isPlaying()) {
+				if (location != null) {
+					double lat = location.getLatitude();
+					double lon = location.getLongitude();
+					MusicFile file = musicList.get(currentPos);
+					TaggedSong song = new TaggedSong();
+					song.setSongId(file.getId());
+					song.setArtist(file.getArtist());
+					song.setTitle(file.getTitle());
+					song.setLatitude(lat);
+					song.setLongitude(lon);
+					boolean saved = LocalDb.getInstance(getApplicationContext()).saveTaggedSong(song);
+					if (saved)
+						Toast.makeText(getApplicationContext(), "Cancion tagueada correctamente!" , Toast.LENGTH_SHORT).show();
+					else 
+						Toast.makeText(getApplicationContext(), "Ha ocurrido un error, intente nuevamente" , Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getApplicationContext(), "Habilite la ubicación!", Toast.LENGTH_SHORT).show();
+				}
 			} else {
-				Toast.makeText(getApplicationContext(), "No location providers available!", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "El reproductor esta pausado.", Toast.LENGTH_SHORT).show();
 			}
 		}
 	};

@@ -1,6 +1,5 @@
 package com.ort.borgplayer.persistence;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,8 @@ public class LocalDb extends SQLiteOpenHelper {
 	private static final String TABLE_MARCADORES = "MARCADORES";
 
 	// Column names Marcadores
-	private static final String ID = "ID";
+	private static final String _ID = "_ID";
+	private static final String SONG_ID = "SONG_ID";
 	private static final String ARTIST_NAME = "ARTIST_NAME";
 	private static final String SONG_NAME = "SONG_NAME";
 	private static final String LATITUDE = "LATITUDE";
@@ -66,56 +66,56 @@ public class LocalDb extends SQLiteOpenHelper {
 	}
 
 	private static final String CREATE_TABLE_MARCADORES = "CREATE TABLE "
-			+ TABLE_MARCADORES + "(" + ID + " INTEGER PRIMARY KEY," + ARTIST_NAME
+			+ TABLE_MARCADORES + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + SONG_ID + " INTEGER," + ARTIST_NAME
 			+ " TEXT," + SONG_NAME + " TEXT," + LATITUDE + " REAL," + LONGITUDE + " REAL," + CREATION_DATE
 			+ " DATETIME" + ")";
 
-	public void agregarLocal(TaggedSong song) {
+	public boolean saveTaggedSong(TaggedSong song) {
 		try {
 			SQLiteDatabase db = this.getWritableDatabase();
 			ContentValues values = new ContentValues();
 
-			if (getTaggedSong(song.getId()) == null)
-			{
-				values.put(ID, song.getId());
-				values.put(ARTIST_NAME, song.getArtist());
-				values.put(SONG_NAME, song.getTitle());
-				values.put(LATITUDE, song.getLatitude());
-				values.put(LONGITUDE, song.getLongitude());
-				values.put(CREATION_DATE, new java.util.Date().toString());
+			values.put(SONG_ID, song.getSongId());
+			values.put(ARTIST_NAME, song.getArtist());
+			values.put(SONG_NAME, song.getTitle());
+			values.put(LATITUDE, song.getLatitude());
+			values.put(LONGITUDE, song.getLongitude());
+			values.put(CREATION_DATE, new java.util.Date().toString());
 
-				db.insert(TABLE_MARCADORES, null, values);
-			}
+			db.insert(TABLE_MARCADORES, null, values);
+			return true;
 		} catch (SQLiteException e) {
-			Log.e("LOG","Error al abrir la base en agregarLocal" + e.getMessage());
+			Log.e("LOG","Error al abrir la db: " + e.getMessage());
+			return false;
 		} catch (Exception ee) {
-			Log.e("LOG","Error al insertar un local en AgregarLocal" + ee.getMessage());			
+			Log.e("LOG","Error al insertar en la db: " + ee.getMessage());
+			return false;
 		}
 	}
 
-	public TaggedSong getTaggedSong(Long localId) {
-		SQLiteDatabase db = this.getReadableDatabase();
-
-		String selectQuery = "SELECT  * FROM " + TABLE_MARCADORES + " WHERE "
-				+ ID + " = " + localId;
-
-		Log.e(LOG, selectQuery);
-		Cursor c = db.rawQuery(selectQuery, null);
-		TaggedSong taggedSong = null;
-
-		if (c.getCount() > 0) {
-			c.moveToFirst();
-			taggedSong = new TaggedSong();
-			taggedSong.setId(c.getLong(c.getColumnIndex(ID)));
-			taggedSong.setArtist(c.getString(c.getColumnIndex(ARTIST_NAME)));
-			taggedSong.setTitle(c.getString(c.getColumnIndex(SONG_NAME)));
-			taggedSong.setLatitude(c.getDouble(c.getColumnIndex(LATITUDE)));
-			taggedSong.setLongitude(c.getDouble(c.getColumnIndex(LONGITUDE)));
-			taggedSong.setCreationDate(Date.valueOf(c.getString(c.getColumnIndex(CREATION_DATE))));
-		}
-
-		return taggedSong;
-	}
+//	public TaggedSong getTaggedSong(Long songId) {
+//		SQLiteDatabase db = this.getReadableDatabase();
+//
+//		String selectQuery = "SELECT  * FROM " + TABLE_MARCADORES + " WHERE "
+//				+ ID + " = " + localId;
+//
+//		Log.e(LOG, selectQuery);
+//		Cursor c = db.rawQuery(selectQuery, null);
+//		TaggedSong taggedSong = null;
+//
+//		if (c.getCount() > 0) {
+//			c.moveToFirst();
+//			taggedSong = new TaggedSong();
+//			taggedSong.setId(c.getLong(c.getColumnIndex(ID)));
+//			taggedSong.setArtist(c.getString(c.getColumnIndex(ARTIST_NAME)));
+//			taggedSong.setTitle(c.getString(c.getColumnIndex(SONG_NAME)));
+//			taggedSong.setLatitude(c.getDouble(c.getColumnIndex(LATITUDE)));
+//			taggedSong.setLongitude(c.getDouble(c.getColumnIndex(LONGITUDE)));
+//			taggedSong.setCreationDate(Date.valueOf(c.getString(c.getColumnIndex(CREATION_DATE))));
+//		}
+//
+//		return taggedSong;
+//	}
 
 	public List<TaggedSong> getTaggedSongs() {
 		List<TaggedSong> taggedSongs = new ArrayList<TaggedSong>();
@@ -130,13 +130,13 @@ public class LocalDb extends SQLiteOpenHelper {
 		if (c.moveToFirst()) {
 			do {
 				TaggedSong taggedSong = new TaggedSong();
-				taggedSong = new TaggedSong();
-				taggedSong.setId(c.getLong(c.getColumnIndex(ID)));
+				taggedSong.set_ID(c.getLong(c.getColumnIndex(_ID)));
+				taggedSong.setSongId(c.getLong(c.getColumnIndex(SONG_ID)));
 				taggedSong.setArtist(c.getString(c.getColumnIndex(ARTIST_NAME)));
 				taggedSong.setTitle(c.getString(c.getColumnIndex(SONG_NAME)));
 				taggedSong.setLatitude(c.getDouble(c.getColumnIndex(LATITUDE)));
 				taggedSong.setLongitude(c.getDouble(c.getColumnIndex(LONGITUDE)));
-				taggedSong.setCreationDate(Date.valueOf(c.getString(c.getColumnIndex(CREATION_DATE))));
+//				taggedSong.setCreationDate(Date.valueOf(c.getString(c.getColumnIndex(CREATION_DATE))));
 
 				taggedSongs.add(taggedSong);
 			} while (c.moveToNext());
@@ -144,5 +144,18 @@ public class LocalDb extends SQLiteOpenHelper {
 		return taggedSongs;
 	}
 
+	public String getTaggedSongsInClause() {
+		List<TaggedSong> taggedSongs = this.getTaggedSongs();
+		String inClause = "";
+		
+		for (TaggedSong taggedSong : taggedSongs) {
+			inClause += "'" + taggedSong.getSongId() + "',";
+		}
+		
+		// Remove ultima coma
+		if (inClause.length() > 0)
+			inClause = inClause.substring(0, inClause.length() - 1);
+		return inClause;
+	}
 
 }

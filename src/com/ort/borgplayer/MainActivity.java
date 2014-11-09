@@ -20,6 +20,7 @@ import com.ort.borgplayer.activity.MusicActivity;
 import com.ort.borgplayer.activity.MusicGeoTagActivity;
 import com.ort.borgplayer.activity.VoiceRecognitionActivity;
 import com.ort.borgplayer.domain.GridArtistFile;
+import com.ort.borgplayer.persistence.LocalDb;
 import com.ort.borgplayer.widget.GridAdapter;
 
 
@@ -52,18 +53,19 @@ public class MainActivity extends Activity {
 		TagsView.setOnClickListener(onVoiceClick);
 		TagsView = (ImageView) findViewById(R.id.seeMap);
 		TagsView.setOnClickListener(onMapClick);
-
-
 	}
+
 	private OnClickListener onGeoClick = new OnClickListener() {
 
 		@Override
 		public void onClick(View view) {
-	Intent intent = new Intent(getApplicationContext() , MusicGeoTagActivity.class);
-					startActivityForResult(intent, 0);
+			Intent intent = new Intent(getApplicationContext() , MusicActivity.class);
+			intent.putExtra("idList", LocalDb.getInstance(getApplicationContext()).getTaggedSongsInClause());
+			startActivityForResult(intent, 0);
 
 		}
 	};
+
 	private OnClickListener onVoiceClick = new OnClickListener() {
 
 		@Override
@@ -72,11 +74,13 @@ public class MainActivity extends Activity {
 			startActivityForResult(intent, 0);	
 		}
 	};
+
 	private OnClickListener onMapClick = new OnClickListener() {
 
 		@Override
 		public void onClick(View view) {
-
+			Intent intent = new Intent(getApplicationContext() , MusicGeoTagActivity.class);
+			startActivityForResult(intent, 0);	
 		}
 	};
 

@@ -4,7 +4,9 @@ import java.sql.Date;
 
 public class TaggedSong {
 
-	private Long id;
+	private Long _ID;
+	
+	private Long songId;
 	
 	private String artist;
 
@@ -18,16 +20,17 @@ public class TaggedSong {
 	
 	public TaggedSong() {}
 	
-	public String getArtist() {
-		return artist;
+	
+	public Long get_ID() {
+		return _ID;
 	}
 	
-	public Date getCreationDate() {
-		return creationDate;
+	public String getArtist() {
+		return artist;
 	};
 
-	public Long getId() {
-		return id;
+	public Date getCreationDate() {
+		return creationDate;
 	}
 
 	public double getLatitude() {
@@ -38,8 +41,16 @@ public class TaggedSong {
 		return longitude;
 	}
 
+	public Long getSongId() {
+		return songId;
+	}
+
 	public String getTitle() {
 		return title;
+	}
+
+	public void set_ID(Long _ID) {
+		this._ID = _ID;
 	}
 
 	public void setArtist(String artist) {
@@ -50,16 +61,17 @@ public class TaggedSong {
 		this.creationDate = creationDate;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
 
+
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
+	}
+
+	public void setSongId(Long songId) {
+		this.songId = songId;
 	}
 
 	public void setTitle(String title) {
