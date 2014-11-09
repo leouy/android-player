@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:background="@color/borggreen">
+     android:background="@drawable/borg_background2">
     
    
   <Button
@@ -20,17 +20,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/tvTextMatches"
-        android:textStyle="bold" />
+        android:textStyle="bold" 
+        android:textColor="@color/borggreen"
+        />
 
  
 
     <ListView
-
         android:id="@+id/lvTextMatches"
-
         android:layout_width="match_parent"
-
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/borggreen"
+        android:textColor="@color/borggreen" />
     
 
 </LinearLayout>

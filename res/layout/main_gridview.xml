@@ -7,31 +7,29 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="78dp"
-        android:background="@color/borggreen" >
-
-
-        
-
-        <ImageView
-            android:id="@+id/Tags"
-            android:layout_width="88dp"
-            android:layout_height="88dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="18dp"
-            android:contentDescription="@string/albumArtDesc"
-            android:src="@drawable/borg_btn2" />
+        android:layout_weight="0.76"
+        android:background="@drawable/borg_background2" >
 
         <ImageView
             android:id="@+id/VoiceRecognition"
             android:layout_width="88dp"
             android:layout_height="88dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="42dp"
             android:contentDescription="@string/albumArtDesc"
             android:src="@drawable/borg_btn1" />
 
+        <ImageView
+            android:id="@+id/Tags"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/VoiceRecognition"
+            android:layout_marginLeft="38dp"
+            android:contentDescription="@string/albumArtDesc"
+            android:src="@drawable/borg_btn2" />
+       
     </RelativeLayout>
 
     <GridView
@@ -49,7 +47,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="@color/borggreen" >
+        android:background="@drawable/borg_background2"  >
 
         <ImageView
             android:id="@+id/seeMap"

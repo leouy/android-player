@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:background="@color/borggreen">
+    android:background="@color/borggray">
     
     <TextView
         android:id="@+id/lyrics_view"
     	android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent" 
+        android:textColor="@color/borggreen"/>
 
 </LinearLayout>
