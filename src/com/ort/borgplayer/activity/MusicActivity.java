@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController.MediaPlayerControl;
 import android.widget.Toast;
@@ -41,7 +42,7 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 
 	private ListView musicListView;
 
-	private Button btnGeoLoc;
+	private ImageView btnGeoLoc;
 	
 	private MusicService musicService;
 
@@ -64,7 +65,7 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 		this.getActionBar().setDisplayHomeAsUpEnabled(true);
 		musicListView = (ListView) findViewById(R.id.lista_canciones);
 		musicList = new ArrayList<MusicFile>();
-		btnGeoLoc = (Button) findViewById(R.id.localizarCancion);		
+		btnGeoLoc = (ImageView) findViewById(R.id.localizarCancion);		
 		this.getMusicList();
 		MusicListAdapter adapter = new MusicListAdapter(this, musicList);
 		musicListView.setAdapter(adapter);

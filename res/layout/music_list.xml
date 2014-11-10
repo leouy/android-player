@@ -14,28 +14,29 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="52dp"
+        android:background="@drawable/borg_background2" >
 
-        <Button
-            android:id="@+id/localizarCancion2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="34dp"
-            android:background="@android:color/transparent"
-            android:text="@string/tag" />
-
-        <Button
+         
+            <ImageView
+                android:id="@+id/lyrics"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="40dp"
+                android:contentDescription="@string/albumArtDesc"
+                android:src="@drawable/lyrics_borg_btn" />
+             <ImageView
             android:id="@+id/localizarCancion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="22dp"
-            android:background="@android:color/transparent"
-            android:text="@string/tag" />
-
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="42dp"
+            android:contentDescription="@string/albumArtDesc"
+            android:src="@drawable/borg_btn1" />
+      
     </RelativeLayout>
 
 </LinearLayout>
