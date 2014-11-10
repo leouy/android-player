@@ -16,8 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="@drawable/borg_background2" >
-
-         
             <ImageView
                 android:id="@+id/lyrics"
                 android:layout_width="88dp"
@@ -27,16 +25,15 @@
                 android:layout_marginLeft="40dp"
                 android:contentDescription="@string/albumArtDesc"
                 android:src="@drawable/lyrics_borg_btn" />
-             <ImageView
-            android:id="@+id/localizarCancion"
-            android:layout_width="88dp"
-            android:layout_height="88dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="42dp"
-            android:contentDescription="@string/albumArtDesc"
-            android:src="@drawable/borg_btn1" />
-      
+            <ImageView
+	            android:id="@+id/localizarCancion"
+	            android:layout_width="88dp"
+	            android:layout_height="88dp"
+	            android:layout_alignParentRight="true"
+	            android:layout_centerVertical="true"
+	            android:layout_marginRight="42dp"
+	            android:contentDescription="@string/albumArtDesc"
+	            android:src="@drawable/borg_btn1" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController.MediaPlayerControl;
@@ -44,6 +43,8 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 
 	private ImageView btnGeoLoc;
 	
+	private ImageView btnLyrics;
+	
 	private MusicService musicService;
 
 	private Intent playIntent;
@@ -65,12 +66,14 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 		this.getActionBar().setDisplayHomeAsUpEnabled(true);
 		musicListView = (ListView) findViewById(R.id.lista_canciones);
 		musicList = new ArrayList<MusicFile>();
-		btnGeoLoc = (ImageView) findViewById(R.id.localizarCancion);		
+		btnGeoLoc = (ImageView) findViewById(R.id.localizarCancion);
+		btnLyrics = (ImageView) findViewById(R.id.lyrics);
 		this.getMusicList();
 		MusicListAdapter adapter = new MusicListAdapter(this, musicList);
 		musicListView.setAdapter(adapter);
 		
 		btnGeoLoc.setOnClickListener(onGeoBotonClick);
+		btnLyrics.setOnClickListener(onLyricsBotonClick);
 		Collections.sort(musicList, new MusicFileComparator());
 		this.setController();
 	}
@@ -126,7 +129,7 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		// getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
@@ -137,13 +140,6 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 			stopService(playIntent);
 			musicService = null;
 			System.exit(0);
-			break;
-		case R.id.action_lyrics:
-			MusicFile file = musicList.get(currentPos);
-			Intent intent = new Intent(this.getApplicationContext() , LyricsActivity.class);
-			intent.putExtra("artistName", file.getArtist());
-			intent.putExtra("songTitle", file.getTitle());
-			startActivityForResult(intent, 0);
 			break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -343,6 +339,23 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 			} else {
 				Toast.makeText(getApplicationContext(), "El reproductor esta pausado.", Toast.LENGTH_SHORT).show();
 			}
+		}
+	};
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////
+	// Acciones del boton de lyrics
+	/////////////////////////////////////////////////////////////////////////////////
+
+	private OnClickListener onLyricsBotonClick = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			MusicFile file = musicList.get(currentPos);
+			Intent intent = new Intent(getApplicationContext() , LyricsActivity.class);
+			intent.putExtra("artistName", file.getArtist());
+			intent.putExtra("songTitle", file.getTitle());
+			startActivityForResult(intent, 0);
 		}
 	};
 

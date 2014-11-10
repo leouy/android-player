@@ -41,15 +41,7 @@
             	android:value=".MainActivity" />
         </activity>
         
-        <activity 
-            android:name=".activity.LyricsActivity"
-            android:parentActivityName=".activity.MusicActivity">
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-        	<meta-data
-           		android:name="android.support.PARENT_ACTIVITY"
-            	android:value=".activity.MusicActivity" />
-        </activity>
-        
+        <activity android:name=".activity.LyricsActivity" />
      	<activity android:name=".activity.VoiceRecognitionActivity" />
      	<activity android:name=".activity.MusicGeoTagActivity" />
         
