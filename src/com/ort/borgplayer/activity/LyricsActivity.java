@@ -26,7 +26,6 @@ public class LyricsActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lyrics);
-		this.getActionBar().setDisplayHomeAsUpEnabled(true);
 		text = (TextView) findViewById(R.id.lyrics_view);
 		String artist = this.getIntent().getExtras().getString("artistName");
 		String song = this.getIntent().getExtras().getString("songTitle");

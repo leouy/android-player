@@ -42,21 +42,25 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 	private ListView musicListView;
 
 	private ImageView btnGeoLoc;
-	
+
 	private ImageView btnLyrics;
-	
+
 	private MusicService musicService;
 
 	private Intent playIntent;
 
+	// Media Controller
 	private MusicController musicController;
 
+	// Bandera indica la pausa de la actividad
 	private boolean appPaused = false;
 
+	// Bandera indica la pausa del playback
 	private boolean musicPaused = false;
 
+	// Bandera que indica si la actividad esta unida al servicio
 	private boolean musicBound = false;
-	
+
 	private int currentPos;
 
 	@Override
@@ -64,17 +68,28 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.music_list);
 		this.getActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		// Obtiene los elementos de la vista
 		musicListView = (ListView) findViewById(R.id.lista_canciones);
-		musicList = new ArrayList<MusicFile>();
 		btnGeoLoc = (ImageView) findViewById(R.id.localizarCancion);
 		btnLyrics = (ImageView) findViewById(R.id.lyrics);
+		
+		// Instancia la lista de canciones
+		musicList = new ArrayList<MusicFile>();
+		
+		// Obtiene las canciones
 		this.getMusicList();
+		
+		// Setea los clicklistener de los botones de tagueo y letra
+		btnGeoLoc.setOnClickListener(onGeoBotonClick);
+		btnLyrics.setOnClickListener(onLyricsBotonClick);
+		
+		Collections.sort(musicList, new MusicFileComparator());
+		
+		// Instancia y setea el adapter de la lista
 		MusicListAdapter adapter = new MusicListAdapter(this, musicList);
 		musicListView.setAdapter(adapter);
 		
-		btnGeoLoc.setOnClickListener(onGeoBotonClick);
-		btnLyrics.setOnClickListener(onLyricsBotonClick);
-		Collections.sort(musicList, new MusicFileComparator());
 		this.setController();
 	}
 
@@ -88,6 +103,11 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 		}
 	}
 
+	@Override
+	public void onBackPressed() {
+	    // your code.
+	}
+	
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -183,10 +203,10 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 		musicService.setFile(currentPos);
 		musicService.playFile();
 		if(musicPaused){
-		    setController();
-		    musicPaused = false;
-		  }
-		  musicController.show(0);
+			setController();
+			musicPaused = false;
+		}
+		musicController.show(0);
 	}
 
 	private void setController(){
@@ -311,9 +331,9 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 	/////////////////////////////////////////////////////////////////////////////////
 	// Acciones del boton de localizacion
 	/////////////////////////////////////////////////////////////////////////////////
-	
+
 	private OnClickListener onGeoBotonClick = new OnClickListener() {
-		
+
 		@Override
 		public void onClick(View view) {
 			Location location = LocationHelper.getLocation(getApplicationContext());
@@ -341,23 +361,24 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 			}
 		}
 	};
-	
-	
+
+
 	/////////////////////////////////////////////////////////////////////////////////
 	// Acciones del boton de lyrics
 	/////////////////////////////////////////////////////////////////////////////////
 
 	private OnClickListener onLyricsBotonClick = new OnClickListener() {
-		
+
 		@Override
 		public void onClick(View v) {
 			MusicFile file = musicList.get(currentPos);
 			Intent intent = new Intent(getApplicationContext() , LyricsActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 			intent.putExtra("artistName", file.getArtist());
 			intent.putExtra("songTitle", file.getTitle());
 			startActivityForResult(intent, 0);
 		}
 	};
 
-	
+
 }
