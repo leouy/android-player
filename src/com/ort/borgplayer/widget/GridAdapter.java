@@ -21,9 +21,12 @@ public class GridAdapter extends BaseAdapter {
 	
 	private LayoutInflater gridInflater;
 	
+	private Context context;
+	
 	public GridAdapter(Context c, List<GridArtistFile> artistList) {
         this.artistList = artistList;
         this.gridInflater = LayoutInflater.from(c);
+        this.context = c;
     }
 	
 	@Override
@@ -66,7 +69,11 @@ public class GridAdapter extends BaseAdapter {
 		convertView.setTag(R.string.grid_position, position);
 		if (currentFile != null) {
 			// Get title and artist
-			Bitmap albumArtBitmap = BitmapFactory.decodeFile(currentFile.getPath());
+			Bitmap albumArtBitmap;
+			if (currentFile.getPath() != null)
+				albumArtBitmap = BitmapFactory.decodeFile(currentFile.getPath());
+			else
+				albumArtBitmap = BitmapFactory.decodeResource(this.context.getResources(), currentFile.getDrawableId());
 			holder.albumArt.setImageBitmap(albumArtBitmap);
 			holder.artistName.setText(currentFile.getArtist());
 		}

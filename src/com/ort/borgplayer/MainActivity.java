@@ -40,7 +40,6 @@ public class MainActivity extends Activity {
 		gridview.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 				String artist = v.getTag(R.string.grid_artist).toString();				
-
 				Intent intent = new Intent(getApplicationContext() , MusicActivity.class);
 				intent.putExtra("artistName", artist);
 				startActivityForResult(intent, 0);				
@@ -95,7 +94,11 @@ public class MainActivity extends Activity {
 			while (albumArtCursor.moveToNext()) {
 				GridArtistFile file = new GridArtistFile();
 				file.setArtist(albumArtCursor.getString(2));
-				file.setPath(albumArtCursor.getString(1));
+				if (albumArtCursor.getString(1) != null) {
+					file.setPath(albumArtCursor.getString(1));
+				} else {
+					file.setDrawableId(R.drawable.borg_default_artist);
+				}
 				if (!albumArt.contains(file)) {
 					albumArt.add(file);
 				}

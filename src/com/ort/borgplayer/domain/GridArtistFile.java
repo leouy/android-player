@@ -5,6 +5,8 @@ public class GridArtistFile {
 	private String artist;
 	
 	private String path;
+	
+	private int drawableId;
 
 	public String getArtist() {
 		return artist;
@@ -20,6 +22,14 @@ public class GridArtistFile {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public int getDrawableId() {
+		return drawableId;
+	}
+
+	public void setDrawableId(int drawableId) {
+		this.drawableId = drawableId;
 	}
 
 	@Override
