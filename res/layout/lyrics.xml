@@ -6,10 +6,27 @@
     android:background="@color/borggray">
     
     <TextView
+        android:id="@+id/lyrics_view_artist"
+    	android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:textColor="@color/borggreen"/>
+    
+    <TextView
+        android:id="@+id/lyrics_view_title"
+    	android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="16sp"
+        android:textColor="@color/borggreen"/>
+    
+    <TextView
         android:id="@+id/lyrics_view"
     	android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textColor="@color/borggreen"/>
+        android:textColor="@color/borggreen"
+        android:textStyle="italic"/>
 
 </LinearLayout>

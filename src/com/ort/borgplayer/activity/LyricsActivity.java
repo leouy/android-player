@@ -20,12 +20,18 @@ import com.ort.borgplayer.domain.MusicDto;
 
 public class LyricsActivity extends Activity {
 
+	private TextView artistText;
+	
+	private TextView titleText;
+	
 	private TextView text;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lyrics);
+		artistText = (TextView) findViewById(R.id.lyrics_view_artist);
+		titleText = (TextView) findViewById(R.id.lyrics_view_title);
 		text = (TextView) findViewById(R.id.lyrics_view);
 		String artist = this.getIntent().getExtras().getString("artistName");
 		String song = this.getIntent().getExtras().getString("songTitle");
@@ -58,6 +64,8 @@ public class LyricsActivity extends Activity {
 					// Else display error message
 					else{
 						Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_LONG).show();
+						artistText.setText(dto.getArtist());
+						titleText.setText(dto.getSong());
 						text.setText(dto.getLyrics());
 					}
 				} catch (JsonParseException e) {
