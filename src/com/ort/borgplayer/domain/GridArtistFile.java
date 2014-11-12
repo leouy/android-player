@@ -1,6 +1,6 @@
 package com.ort.borgplayer.domain;
 
-public class GridArtistFile {
+public class GridArtistFile implements Comparable<GridArtistFile> {
 	
 	private String artist;
 	
@@ -55,6 +55,11 @@ public class GridArtistFile {
 		} else if (!artist.equals(other.artist))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(GridArtistFile another) {
+		return this.artist.compareTo(another.artist);
 	}
 
 

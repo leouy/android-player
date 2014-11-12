@@ -1,6 +1,7 @@
 package com.ort.borgplayer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -90,7 +91,6 @@ public class MainActivity extends Activity {
 		Cursor albumArtCursor = musicResolver.query(android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, projection,
 				null, null, null);
 		if (albumArtCursor != null) {
-
 			while (albumArtCursor.moveToNext()) {
 				GridArtistFile file = new GridArtistFile();
 				file.setArtist(albumArtCursor.getString(2));
@@ -99,10 +99,13 @@ public class MainActivity extends Activity {
 				} else {
 					file.setDrawableId(R.drawable.borg_default_artist);
 				}
+				// TODO: posible mejorar implementacion para no recorrer la lista
 				if (!albumArt.contains(file)) {
 					albumArt.add(file);
 				}
 			}
+			// Ordena por artist
+			Collections.sort(albumArt);
 		}
 	}
 
