@@ -24,7 +24,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="40dp"
                 android:contentDescription="@string/albumArtDesc"
-                android:src="@drawable/lyrics_borg_btn" />
+                android:src="@drawable/borg_world" />
             <ImageView
 	            android:id="@+id/localizarCancion"
 	            android:layout_width="88dp"
@@ -33,7 +33,7 @@
 	            android:layout_centerVertical="true"
 	            android:layout_marginRight="42dp"
 	            android:contentDescription="@string/albumArtDesc"
-	            android:src="@drawable/borg_btn1" />
+	            android:src="@drawable/borg_location" />
     </RelativeLayout>
 
 </LinearLayout>
