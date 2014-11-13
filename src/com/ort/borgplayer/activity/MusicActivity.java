@@ -195,6 +195,7 @@ public class MusicActivity extends Activity implements MediaPlayerControl {
 				file.setArtist(musicCursor.getString(artista));
 				musicList.add(file);
 			}
+			musicCursor.close();
 		}
 	}
 

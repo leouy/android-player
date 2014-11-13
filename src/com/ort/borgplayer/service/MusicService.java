@@ -68,6 +68,7 @@ MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
 	@Override
 	public boolean onUnbind(Intent intent){
 		player.stop();
+		player.reset();
 		player.release();
 		return false;
 	}

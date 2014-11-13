@@ -104,6 +104,7 @@ public class MainActivity extends Activity {
 					albumArt.add(file);
 				}
 			}
+			albumArtCursor.close();
 			// Ordena por artist
 			Collections.sort(albumArt);
 		}
